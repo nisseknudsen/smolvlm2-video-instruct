@@ -30,7 +30,7 @@ if [ ! -f "/home/state/venv/bin/activate" ]; then
     fi
 
     echo "Upgrading pip in the virtual environment..."
-    /home/state/venv/bin/python3 -m pip install --upgrade pip
+    /home/state/venv/bin/python3 -m pip install --upgrade pip wheel setuptools
     if [ $? -ne 0 ]; then
         echo "Error: Failed to upgrade pip."
         exit 1
