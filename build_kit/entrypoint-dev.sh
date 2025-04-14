@@ -20,10 +20,11 @@ sudo service ssh start
 git config --global user.email "make87"
 git config --global user.name "todo@make87.com"
 
+export UV_CACHE_DIR=/root/.cache/uv
 # Check if the activate script exists, and recreate the venv if needed
 if [ ! -f "/home/state/venv/bin/activate" ]; then
     echo "Virtual environment is incomplete or missing. Recreating..."
-    uv venv /home/state/venv
+    uv venv --managed-python --python 3.11.12 /home/state/venv
     if [ $? -ne 0 ]; then
         echo "Error: Failed to create the virtual environment."
         exit 1
