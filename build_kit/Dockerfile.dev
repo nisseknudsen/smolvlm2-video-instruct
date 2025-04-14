@@ -8,6 +8,7 @@ FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04 AS base
 ARG DEBIAN_FRONTEND=noninteractive
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+RUN uv python install 3.11
 
 # copy folder from `model` image in `/root/.cache/huggingface/hub` to `/root/.cache/huggingface/hub` in `base` image
 COPY --from=model /root/.cache/huggingface/hub /root/.cache/huggingface/hub
