@@ -119,8 +119,6 @@ EOF
 EOF
 fi
 
-source /home/state/venv/bin/activate
-
 # check RUN_MODE env var if its ide, ssh or run
 DEV_RUN_MODE=${DEV_RUN_MODE:-ide}
 if [ "$DEV_RUN_MODE" = "ide" ]; then
@@ -133,5 +131,6 @@ else
     # pip install, then run /home/state/code/app/main.py
     cd /home/state/code || exit 1
     uv pip install -e .
+    uv pip install --no-build-isolation flash-attn
     uv run python -u app/main.py
 fi
