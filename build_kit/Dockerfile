@@ -28,5 +28,3 @@ RUN sh ${VIRTUAL_ENV}/bin/activate && \
     uv pip install --no-build-isolation flash-attn
 
 ENTRYPOINT ["/make87/venv/bin/python3", "-m", "app.main"]
-
-
