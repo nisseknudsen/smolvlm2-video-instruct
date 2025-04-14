@@ -9,7 +9,14 @@ version = "0.0.1"
 dependencies = [
   "make87",
   "make87_messages",
+  "transformers>=4.51.2,<5.0.0",
+  "torch>=2.0.0,<3.0.0",
+  "Pillow>=11.1.0,<12.0.0",
+  "num2words>=0.5.14,<0.6.0",
+  # Also `flash-attn` is required but need install via `pip install flash-attn --no-build-isolation` command
 ]
+
+
 description = "A small example package"
 readme = "README.md"
 requires-python = ">=3.9,<3.13"

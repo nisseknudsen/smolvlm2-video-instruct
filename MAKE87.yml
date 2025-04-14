@@ -1,6 +1,19 @@
 build_kit:
-  name: python3
+  name: file://build_kit/Dockerfile
   version: latest
+  target_architectures: [amd64]
 inbound_topics:
-  - name: HELLO_WORLD_MESSAGE
+  - name: IMAGE_STREAM
+    message_type: make87_messages.image.compressed.image_jpeg.ImageJPEG
+outbound_topics:
+  - name: IMAGE_DESCRIPTION
     message_type: make87_messages.text.text_plain.PlainText
+config:
+  values:
+    - name: FRAME_WINDOW_SIZE
+      description: "Sliding window size for inference."
+      default: 10
+      required: false
+peripheral_requirements:
+  - name: GPU
+    peripheral_type: GPU
