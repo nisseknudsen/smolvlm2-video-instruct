@@ -20,13 +20,19 @@ sudo service ssh start
 git config --global user.email "make87"
 git config --global user.name "todo@make87.com"
 
-export UV_CACHE_DIR=/root/.cache/uv
 # Check if the activate script exists, and recreate the venv if needed
 if [ ! -f "/home/state/venv/bin/activate" ]; then
     echo "Virtual environment is incomplete or missing. Recreating..."
-    uv venv --managed-python --python 3.11.12 /home/state/venv
+    python3 -m venv /home/state/venv
     if [ $? -ne 0 ]; then
         echo "Error: Failed to create the virtual environment."
+        exit 1
+    fi
+
+    echo "Upgrading pip in the virtual environment..."
+    /home/state/venv/bin/python3 -m pip install --upgrade pip
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to upgrade pip."
         exit 1
     fi
 else
@@ -37,13 +43,6 @@ fi
 source /home/state/venv/bin/activate
 if [ $? -ne 0 ]; then
     echo "Error: Failed to activate the virtual environment."
-    exit 1
-fi
-
-echo "Upgrading pip in the virtual environment..."
-uv pip install --upgrade pip setuptools wheel
-if [ $? -ne 0 ]; then
-    echo "Error: Failed to upgrade pip."
     exit 1
 fi
 
@@ -120,6 +119,8 @@ EOF
 EOF
 fi
 
+source /home/state/venv/bin/activate
+
 # check RUN_MODE env var if its ide, ssh or run
 DEV_RUN_MODE=${DEV_RUN_MODE:-ide}
 if [ "$DEV_RUN_MODE" = "ide" ]; then
@@ -131,7 +132,8 @@ elif [ "$DEV_RUN_MODE" = "ssh" ]; then
 else
     # pip install, then run /home/state/code/app/main.py
     cd /home/state/code || exit 1
-    uv pip install -e .
-    uv pip install --no-build-isolation flash-attn
-    uv run python -u app/main.py
+    pip install -e .
+    pip install --no-build-isolation flash-attn
+    python -u app/main.py
 fi
+
